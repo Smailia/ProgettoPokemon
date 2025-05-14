@@ -1,0 +1,56 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #ffcc00, #ff0000);
+    font-family: 'Press Start 2P', cursive;
+    color: #fff;
+}
+
+.container {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.container h1 {
+    font-size: 2rem;
+    color: #ff0000;
+    text-shadow: 2px 2px #ffcc00;
+}
+
+.container img {
+    width: 150px;
+    margin: 20px 0;
+}
+
+.container p {
+    font-size: 1rem;
+    color: #333;
+}
+
+.container button {
+    background: #ffcc00;
+    color: #fff;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1rem;
+    font-family: 'Press Start 2P', cursive; /* Font aggiornato */
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+}
+
+.container button:hover {
+    background: #ff9900;
+    transform: scale(1.1);
+}
+
+.container button:active {
+    transform: scale(0.9);
+}

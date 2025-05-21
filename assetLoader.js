@@ -46,6 +46,17 @@ loadSpriteAtlas("./asset/tiles.png", {
         "ground-r": 43,
         "rock-water": 60,
     },
-  },
+    tile1: {
+    x: 0,
+    y: 0,
+    width: 128,
+    height: 128,
+    sliceX: 10,
+    sliceY: 14,
+    anims: {
+        "plank-water":1
+    },
+   },
+  }
  });
 }

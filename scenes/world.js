@@ -7,22 +7,22 @@ function setWorld(worldState) {
     const map = [
       addLevel(
         [
-          "                 ",
-          " cdddddddddddde  ",
-          " 30000000000002  ",
-          " 30000000000002  ",
-          " 30000000000002  ",
-          " 30030000008889  ",
-          " 30030000024445  ",
-          " 300a8888897777  ",
-          " 30064444457777  ",
-          " 30000000000000  ",
-          " 30000000021111  ",
-          " 3000000002      ",
-          " 1111111111      ",
-          "      b          ",
-          "     b      b    ",
-          " b             b ",
+          "                   ",
+          " cdddddddddddddde    ",
+          " 3000000000000002    ",
+          " 3000000000000002    ",
+          " 3000000000000002    ",
+          " 3003000000888889    ",
+          " 3003000002444445    ",
+          " 300a888889777777   ",
+          " 3006444445777777    ",
+          " 3000000000000000    ",
+          " 3000000000021111   ",
+          " 300000000002        ",
+          " 111111111111        ",
+          "      b            ",
+          "     b             ",
+          " b               b ",
         ],
         {
           tileWidth: 16,
@@ -43,6 +43,7 @@ function setWorld(worldState) {
             c: () => makeTile("grass-tl"),
             d: () => makeTile("grass-tm"),
             e: () => makeTile("grass-tr"),
+            f: () => makeTile("plank-water"),
           },
         }
       ),
@@ -73,25 +74,28 @@ function setWorld(worldState) {
             4: () => makeTile("bigtree-pt4"),
             5: () => makeTile("tree-t"),
             6: () => makeTile("tree-b"),
+            7: () => makeTile("plank-water"),
           },
         }
       ),
       addLevel(
         [
-          " 00000000000000 ",
-          "0     11       0",
-          "0           11 0",
-          "0           11 0",
-          "0              0",
-          "0   2          0",
-          "0   2      3333 ",
-          "0   2      0   0",
-          "0   3333333    0",
-          "0    0         0",
-          "0          0000 ",
-          "0          0    ",
-          " 0000000000     ",
+          " 0000000000000000",
+          "0     11         0",
+          "0           11   0",
+          "0           11   0",
+          "0                0",
+          "0   2            0",
+          "0   2      333333 ",
+          "0   2      0     0",
+          "0   3333333      0",
+          "0    0           0",
+          "0            0000",
+          "0            0   ",
+          " 0000000000      ",
+          "     0          ",
           "                ",
+          " 0               0",
         ],
         {
           tileWidth: 16,
@@ -132,16 +136,7 @@ function setWorld(worldState) {
         }
       }
     }
-  
-    add([
-      sprite("mini-mons"),
-      area(),
-      body({ isStatic: true }),
-      pos(100, 700),
-      scale(4),
-      "cat",
-    ]);
-  
+
     const spiderMon = add([
       sprite("mini-mons"),
       area(),
@@ -277,7 +272,7 @@ function setWorld(worldState) {
         fixed(),
       ]);
       const dialogue =
-        "Defeat all monsters on this island and you'll become the champion!";
+        "Sconfiggi ogni pokemon per diventare il campione dell'isola!";
       const content = dialogueBox.add([
         text("", {
           size: 42,

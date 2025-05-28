@@ -46,6 +46,8 @@ loadSpriteAtlas("./asset/tiles.png", {
         "ground-r": 43,
         "rock-water": 60,
         "door-cave": 32,
+        "plank-water": 52,
+        "plank-wood": 44,
     },
   }
   });

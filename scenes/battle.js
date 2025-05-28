@@ -179,7 +179,7 @@ function setBattle(worldState) {
   
       if (enemyMonHealthBar.width < 0 && !enemyMon.fainted) {
         makeMonDrop(enemyMon);
-        content.text = worldState.enemyName.toUpperCase() + " fainted!";
+        content.text = worldState.enemyName.toUpperCase() + "è svenuto!";
         enemyMon.fainted = true;
         setTimeout(() => {
           content.text = "MUSHROOM ha vinto!";

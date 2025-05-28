@@ -59,10 +59,10 @@ function setWorld(worldState) {
           "       34      ",
           "              ",
           "              ",
-          "        0     ",
-          "               ",
-          "               ",
-          "               ",
+          "        0        ",
+          "                8",
+          "                8",
+          "                7",
         ],
         {
           tileWidth: 16,
@@ -76,6 +76,7 @@ function setWorld(worldState) {
             5: () => makeTile("tree-t"),
             6: () => makeTile("tree-b"),
             7: () => makeTile("plank-water"),
+            8: () => makeTile("plank-wood"),
           },
         }
       ),
@@ -91,10 +92,10 @@ function setWorld(worldState) {
           "0   2  00 3      0",
           "0   3333333      0",
           "0                0",
-          "0            0000",
-          "0            0   ",
-          " 00000000000     ",
-          "     0          ",
+          "0            000 0",
+          "0            0 0 0",
+          " 00000000000      ",
+          "     0           ",
           "                ",
           " 0               0",
         ],
@@ -146,10 +147,11 @@ function setWorld(worldState) {
       scale(4),
       "spider",
     ]);
-    const lapras = add([
+    const laprasStartPos = vec2(700, 775);
+    let lapras = add([
       sprite("lapras"),
       scale(2),
-      pos(700, 775),
+      pos(laprasStartPos),
       area(),
       body({ isStatic: true }),
       "lapras",
@@ -205,6 +207,7 @@ function setWorld(worldState) {
         player.use(sprite("lapras"));
         player.scale = vec2(2);
         player.speed = 400;
+        player.laprasStartPos = laprasStartPos.clone();
         destroy(lapras);
       }
     });
@@ -219,6 +222,20 @@ function setWorld(worldState) {
         !player.isInDialogue
       ) {
         player.flipX = !player.flipX;
+      }
+      if (player.isLapras && isNearRightCoast(player)) {
+        player.isLapras = false;
+        player.use(sprite("player-down"));
+        player.scale = vec2(4);
+        player.speed = 300;
+        lapras = add([
+          sprite("lapras"),
+          scale(2),
+          pos(laprasStartPos),
+          area(),
+          body({ isStatic: true }),
+          "lapras",
+        ]);
       }
     });
   
@@ -361,4 +378,7 @@ function setWorld(worldState) {
     onCollideWithPlayer("spider", player, worldState);
     onCollideWithPlayer("centipede", player, worldState);
     onCollideWithPlayer("grass", player, worldState);
+  }
+  function isNearRightCoast(player) {
+    return player.pos.x > 1000;
   }

@@ -45,18 +45,15 @@ loadSpriteAtlas("./asset/tiles.png", {
         "ground-m": 42,
         "ground-r": 43,
         "rock-water": 60,
+        "door-cave": 32,
     },
-    tile1: {
-    x: 0,
-    y: 0,
-    width: 128,
-    height: 128,
-    sliceX: 10,
-    sliceY: 14,
-    anims: {
-        "plank-water":1
-    },
-   },
   }
- });
+  });
+  loadSprite("lapras", "./asset/lapras.png");
 }
+for (const layer of map) {
+  layer.use(scale(4));
+  for (const tile of layer.children) {
+    if (tile.type) {
+  }
+}}

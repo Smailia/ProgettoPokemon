@@ -15,7 +15,7 @@ function setWorld(worldState) {
           " 3003000000888889    ",
           " 3003000002444445    ",
           " 300a888889777777   ",
-          " 3006444445777777    ",
+          " 30064g4445777777    ",
           " 3000000000000000    ",
           " 3000000000021111   ",
           " 300000000002        ",
@@ -44,6 +44,7 @@ function setWorld(worldState) {
             d: () => makeTile("grass-tm"),
             e: () => makeTile("grass-tr"),
             f: () => makeTile("plank-water"),
+            g: () => makeTile("door-cave"),
           },
         }
       ),
@@ -51,14 +52,14 @@ function setWorld(worldState) {
         [
           "      12       ",
           "      34       ",
-          " 000    00  12 ",
-          " 00   00    34 ",
+          "   0     0  12 ",
+          "      0     34 ",
           " 0    0        ",
-          "      0  0     ",
-          "           5   ",
-          "           6   ",
-          "     5         ",
-          "     6   0     ",
+          "      012      ",
+          "       34      ",
+          "              ",
+          "              ",
+          "        0     ",
           "               ",
           "               ",
           "               ",
@@ -86,13 +87,13 @@ function setWorld(worldState) {
           "0           11   0",
           "0                0",
           "0   2            0",
-          "0   2      3333330",
-          "0   2      0     0",
+          "0   2  00 33333330",
+          "0   2  00 3      0",
           "0   3333333      0",
-          "0    0           0",
+          "0                0",
           "0            0000",
           "0            0   ",
-          " 0000000000      ",
+          " 00000000000     ",
           "     0          ",
           "                ",
           " 0               0",
@@ -141,9 +142,17 @@ function setWorld(worldState) {
       sprite("mini-mons"),
       area(),
       body({ isStatic: true }),
-      pos(200, 300),
+      pos(600, 300),
       scale(4),
       "spider",
+    ]);
+    const lapras = add([
+      sprite("lapras"),
+      scale(2),
+      pos(700, 775),
+      area(),
+      body({ isStatic: true }),
+      "lapras",
     ]);
     spiderMon.play("spider");
     spiderMon.flipX = true;
@@ -187,15 +196,25 @@ function setWorld(worldState) {
         currentSprite: "player-down",
         speed: 300,
         isInDialogue: false,
+        isLapras: false,
       },
     ]);
+    player.onCollide("lapras", () => {
+      if (!player.isLapras) {
+        player.isLapras = true;
+        player.use(sprite("lapras"));
+        player.scale = vec2(2);
+        player.speed = 400;
+        destroy(lapras);
+      }
+    });
   
     let tick = 0;
     onUpdate(() => {
       camPos(player.pos);
       tick++;
       if (
-        (isKeyDown("down") || isKeyDown("up")) &&
+        (isKeyDown("s") || isKeyDown("w")) &&
         tick % 20 === 0 &&
         !player.isInDialogue
       ) {
@@ -210,46 +229,59 @@ function setWorld(worldState) {
       }
     }
   
-    onKeyDown("down", () => {
+    onKeyDown("s", () => {
       if (player.isInDialogue) return;
-      setSprite(player, "player-down");
-      player.move(0, player.speed);
-    });
-  
-    onKeyDown("up", () => {
-      if (player.isInDialogue) return;
-      setSprite(player, "player-up");
-      player.move(0, -player.speed);
-    });
-  
-    onKeyDown("left", () => {
-      if (player.isInDialogue) return;
-      player.flipX = false;
-      if (player.curAnim() !== "walk") {
-        setSprite(player, "player-side");
-        player.play("walk");
+      if (player.isLapras) {
+        player.move(0, player.speed);
+      } else {
+        setSprite(player, "player-down");
+        player.move(0, player.speed);
       }
-      player.move(-player.speed, 0);
     });
-  
-    onKeyDown("right", () => {
+    onKeyDown("w", () => {
       if (player.isInDialogue) return;
-      player.flipX = true;
-      if (player.curAnim() !== "walk") {
-        setSprite(player, "player-side");
-        player.play("walk");
+      if (player.isLapras) {
+        player.move(0, -player.speed);
+      } else {
+        setSprite(player, "player-up");
+        player.move(0, -player.speed);
       }
-      player.move(player.speed, 0);
     });
-  
-    onKeyRelease("left", () => {
+    onKeyDown("a", () => {
+      if (player.isInDialogue) return;
+      if (player.isLapras) {
+        player.move(-player.speed, 0);
+      } else {
+        player.flipX = false;
+        if (player.curAnim() !== "walk") {
+          setSprite(player, "player-side");
+          player.play("walk");
+        }
+        player.move(-player.speed, 0);
+      }
+    });
+    onKeyDown("d", () => {
+      if (player.isInDialogue) return;
+      if (player.isLapras) {
+        player.move(player.speed, 0);
+      } else {
+        player.flipX = true;
+        if (player.curAnim() !== "walk") {
+          setSprite(player, "player-side");
+          player.play("walk");
+        }
+        player.move(player.speed, 0);
+      }
+    });
+
+    onKeyRelease("a", () => {
       player.stop();
     });
-  
-    onKeyRelease("right", () => {
+
+    onKeyRelease("d", () => {
       player.stop();
     });
-  
+
     if (!worldState) {
       worldState = {
         playerPos: player.pos,
@@ -284,10 +316,10 @@ function setWorld(worldState) {
         fixed(),
       ]);
   
-      if (worldState.faintedMons.length < 4) {
+      if (worldState.faintedMons.length < 3) {
         content.text = dialogue;
       } else {
-        content.text = "You're the champion!";
+        content.text = "Sei il campione dell'isola!";
       }
   
       onUpdate(() => {
